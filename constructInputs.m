@@ -41,12 +41,19 @@ decomCost = 3e6;                        %[USD] One-time decommission cost
 
 %[months]: Number of months used when computing NPV.
 timeHorizon = 240;
-b = .927;               % Decline curve parameter 2 (curvature of line)
-D = .237;               % Decline curve parameter 1 (initial decline rate)
+
+% Used by John Kemp. 
+%b = .927;               % Decline curve parameter 2 (curvature of line)
+%D = .237;               % Decline curve parameter 1 (initial decline rate)
 
 % Values used by Lennea Lund et al (2014)
 %b = 1.08;
 %D = .309;
+
+% Based on the histgrams
+b = 1;
+D = .35;
+
 
 decommissioned = T; %[month] Defining which month the well is decommissioned.
 %%

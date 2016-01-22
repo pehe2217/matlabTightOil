@@ -70,8 +70,8 @@ days = 30.41; % Average number of days in a month.
 if(loadOilPriceFromFile)
     f = 'RWTCm.xls';
     sheet    = 'Data 1';
-    %range    = 'A256:B359';
-    range    = 'A316:B359'; % from jan 2012 TO aug 2015
+    range    = 'A256:B359';  % from jan 2007 TO aug 2015
+    %range    = 'A316:B359'; % from jan 2012 TO aug 2015
     oilPrice = decideOilPrice(f,sheet,range);
 else
     oilPrice = decideOilPrice();
@@ -85,8 +85,8 @@ if(loadRigDataFromFile)
     %range    = 'B2:B6';
     f        = 'dpr-data.xlsx';
     sheet    = 'Eagle Ford Region';
-    %range    = 'B3:B106';
-    range    = 'B63:B106'; % from jan 2012 TO aug 2015
+    range    = 'B3:B106';   % from jan 2007 TO aug 2015
+    %range    = 'B63:B106'; % from jan 2012 TO aug 2015
     rigs1 = loadRigs(f,sheet,range);
 else
     rigs1 = loadRigs(maxRigs);
@@ -101,8 +101,8 @@ if(loadWellsPerRigRateFromFile)
     %range    = 'B2:B6';
     f        = 'dpr-data_edited.xlsx';
     sheet    = 'Eagle Ford Region';
-    range    = 'J3:J106'; 
-    range    = 'J63:J106'; % from jan 2012 TO aug 2015
+    range    = 'N3:N106';  % from jan 2007 TO aug 2015
+    %range    = 'J63:J106'; % from jan 2012 TO aug 2015
     wellsPerRigRate = loadWellsPerRigRate(f,sheet,range);
 else
     wellsPerRigRate = loadWellsPerRigRate(constantWRR);
@@ -112,8 +112,8 @@ end
 if(loadHistProdFromFile)
     filename = 'dpr-data_edited.xlsx';
     sheet = 'Eagle Ford Region';
-    range    = 'J3:J106'; 
-    range    = 'J63:J106'; % from jan 2012 TO aug 2015
+    range    = 'E3:E106';  % from jan 2007 TO aug 2015
+    %range    = 'E63:E106'; % from jan 2012 TO aug 2015
     
     fprintf('\nLoading history data on total production:\n');
     fprintf('\tTrying to read input file:\n');
@@ -157,12 +157,15 @@ producers(1).wellsPerRigRate = wellsPerRigRate;
 %producers(1).NPVaggrConserv = ones(T,1) * (-1e6);  % Aggressive. NPV > negative value
 %producers(1).prodAim = productionData;
 
-producers = [producers,createProducer(1e8,T,'NPV_rig',rigs1)];
+producers = [producers,createProducer(1e8,T,'rig',rigs1)];
 producers(2).wellsPerRigRate = wellsPerRigRate;
 %producers(2).NPVaggrConserv = ones(T,1) * (-1e6);  % Aggressive. NPV > negative value
 %producers(2).prodAim = productionData;
 
 
+producers(2).NPVestimatorInput.q0 = 514; % Mean of mean q0 from 2011-2014, 
+producers(2).NPVestimatorInput.D = .35;
+producers(2).NPVestimatorInput.b = 1;
 
 
 

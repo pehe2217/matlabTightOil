@@ -19,21 +19,27 @@ if(nargin==3)
             if(dlength==T)
                 rigs = data;
             elseif(dlength<T)
-                element = floor(T/length(data));
                 
-                start = 1;
-                for i = 1:dlength
-                    rigs(start:start+element) = data(i);
-                    start = start+element;
-                end
-                if(start<T) % If the length of adjustment data vector is not fully 
-                    % "dividible" with T, the last elements in the
-                    % adjustment vector are assigned with the last
-                    % adjustment value: 
-                    for(i = start:T)
-                        rigs(i) = data(end);
-                    end
-                end
+                rigs(1:dlength) = data;
+                rigs( (dlength+1):end) = data(end);
+                
+                % If you want to do it in another way, this works also:
+                
+%                 element = floor(T/length(data));
+%                 
+%                 start = 1;
+%                 for i = 1:dlength
+%                     rigs(start:start+element) = data(i);
+%                     start = start+element;
+%                 end
+%                 if(start<T) % If the length of adjustment data vector is not fully 
+%                     % "dividible" with T, the last elements in the
+%                     % adjustment vector are assigned with the last
+%                     % adjustment value: 
+%                     for(i = start:T)
+%                         rigs(i) = data(end);
+%                     end
+%                 end
             else
                 % dlength>T
                 for i = 1:T

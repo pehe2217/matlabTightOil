@@ -19,7 +19,7 @@ colour = {'b','g','r'};
 % end
 
 sign = 'o-';
-for pr = 1:1
+for pr = 1:length(producers)
     col = colour{pr};
     col = strcat(col,sign);
     production(:,pr) = producers(pr).totalProd;
@@ -37,9 +37,9 @@ sign = 's-';
 
 
 %% Load Total Production
-filename = 'dpr-data.xlsx';
+filename = 'dpr-data_edited.xlsx';
 sheet = 'Eagle Ford Region';
-range = 'E3:E106';
+range = 'E3:E106'; % Jan 2007 to aug 2015
 
 fprintf('\nLoading history data on total production:\n');
 fprintf('\tTrying to read input file:\n');
@@ -47,11 +47,11 @@ fprintf('\tFilename: %s\n',filename);
 fprintf('\tSheet: %s\n',sheet);
 fprintf('\tRange: %s\n',range);
 
-productionData = xlsread(filename,sheet,range);
+histProd = xlsread(filename,sheet,range);
 
 %%
 %str = strcat(colour{pr+1},'k+-');
-plot(time,productionData/1000,'k+-');
+plot(1:length(histProd),histProd/1000,'k+-');
 
 %%
 xlabel('Month')
@@ -68,8 +68,7 @@ set(findall(gcf,'type','text'),'FontSize',16,'fontWeight','bold')
 lineobj = findobj('type', 'line');
 set(lineobj, 'linewidth', 1.5)
 
-axis([0 T 0     max(max(max(production,[],2),productionData))/1000*1.1 ])
-
+%axis([0 T 0     max(max(max(production,[],2),histProd))/1000*1.1 ])
 
 end
 

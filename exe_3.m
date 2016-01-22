@@ -145,7 +145,7 @@ cap = 3e6;
 
 %producers = [createProducer(5e8,T,'rig',rigs1)];
 
-n = 2;
+n = 1;
 producers = [];
 qqq = linspace(450,650,n);
 DDD = [0.16675263, 0.408676386, 0.650600141, 0.892523896];

@@ -1,6 +1,6 @@
 function [q0,bin,r] = parameter_q0(data)
 % Output: Parameter b for decline curve. 
-% Input: 
+% INPUT: 
 % Columns:(Endpoint of bin) (freq)  (probability)  (Cumulative Distribution)
 % rows:     bin 1
 %           bin 2

@@ -3,7 +3,7 @@ global T
 wellsPerRigRate = ones(T,1);
 if(nargin==3)
     % Default file, sheet and range:
-    fprintf('\nLoading data on rig count...\n');
+    fprintf('\nLoading wells per rig rate...\n');
     
     needInput = 1; % Loop parameter.
     while(needInput)
@@ -18,27 +18,25 @@ if(nargin==3)
             dlength = length(data);
             if(dlength==T)
                 wellsPerRigRate = data;
-            elseif(dlength<T)
-                element = floor(T/length(data));
-                
+            elseif(dlength<T)        
+                element = floor(T/dlength);
                 start = 1;
                 for i = 1:dlength
                     wellsPerRigRate(start:start+element) = data(i);
                     start = start+element;
                 end
-                if(start<T) % If the length of adjustment data vector is not fully 
+                if(start<T) % If the length of adjustment data vector is not fully
                     % "dividible" with T, the last elements in the
                     % adjustment vector are assigned with the last
-                    % adjustment value: 
+                    % adjustment value:
                     for(i = start:T)
                         wellsPerRigRate(i) = data(end);
                     end
                 end
             else
-                % dlength>T
-                for i = 1:T
-                    wellsPerRigRate(i) = data(i);
-                end
+                % IF: dlength>T
+                wellsPerRigRate = data(1:T);
+                
             end
             needInput = 0;
         catch

@@ -12,7 +12,21 @@ global T
 % Twitter: @JKempEnergy
 % Phone: +44 7789 483 325
 % Check if variables exist or are unset:
-q0 = 644;                               %[bbl/day] Initial production rate.
+
+%______  [bbl/day] Initial production rate. ________________________
+
+%q0 = 644; % Used by John Kemp.  
+
+
+% These come originaly from Henrik Wachtmeister + Linnea Lund et al. 
+% Means and medians are calculated from in excel file 'q0_modified.xlxsl':
+
+%q0 = 487;   % Mean of mean q0 from 2010-2014, 
+q0 = 514;   % Mean of mean q0 from 2011-2014, 
+%q0 = 456;   % Median of 2010-2014,
+%q0 = 462;   % Median of 2011-2014,
+% _________________________________________________________________
+
 drillCost = 5e6;                        %[USD] One-time drilling cost
 comCost = 4e6;                          %[USD] One-time completion cost
 drillTime = 1;
@@ -22,17 +36,18 @@ operatingCost = 10;                     %[USD/bbl] Variable
 fixedOperCost = 0;                      %[USD/bbl] Fixed
 discountRate = .10;                     %[percentage] Discount rate
 
-% Decommission cost is not used by John Kemp. 
+% Decommission cost is NOT used by John Kemp. 
 decomCost = 3e6;                        %[USD] One-time decommission cost
 
 %[months]: Number of months used when computing NPV.
 timeHorizon = 240;
-D = .237;               % Decline curve parameter 1 (initial decline rate)
 b = .927;               % Decline curve parameter 2 (curvature of line)
+D = .237;               % Decline curve parameter 1 (initial decline rate)
 
 % Values used by Lennea Lund et al (2014)
 %b = 1.08;
 %D = .309;
+
 decommissioned = T; %[month] Defining which month the well is decommissioned.
 %%
 

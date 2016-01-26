@@ -18,13 +18,13 @@ global distribution_D distribution_b distribution_q0
 global productionData
 
 % >>>  INPUT DATA: 
-T = 150;                             % [Months] Length of simulation
+T = 120;                             % [Months] Length of simulation
 economicDynamics                        = true;     % true or false
 loadOilPriceFromFile                    = true;     % true or false
 loadHistProdFromFile                    = false;    % true or false
 loadRigDataFromFile                     = true;    % true or false
 if(~loadRigDataFromFile)
-    maxRigs = 279; % Change here if you don't want to load data from file. 
+    maxRigs = 20; % Change here if you don't want to load data from file. 
 end
 loadWellsPerRigRateFromFile             = true; 
 if(~loadWellsPerRigRateFromFile)
@@ -38,25 +38,25 @@ if(stochasticDeclinecurveVariables)
     % Loading distribution of decline parameters: 
     distribution_b = loadDistributionOf_b();        % Don't edit
     distribution_D = loadDistributionOf_D();        % Don't edit
-    set_D = []; % Stochastic assignement for each well
-    set_b = []; % Stochastic assignement for each well
-else
-    % Deterministic assignment, same value for all wells.
-    % (if determininstic assignment) >>>>>>  INPUT DATA: 
-    %set_D = .237; 
-    %set_b = .927; 
-    set_D = .488; 
-    set_b = 1.1; 
+%     set_D = []; % Stochastic assignement for each well
+%     set_b = []; % Stochastic assignement for each well
+% else
+%     % Deterministic assignment, same value for all wells.
+%     % (if determininstic assignment) >>>>>>  INPUT DATA: 
+%     %set_D = .237; 
+%     %set_b = .927; 
+%     set_D = .488; 
+%     set_b = 1.1; 
 end
 
 stochasticInitialProduction             = true; 
 if(stochasticInitialProduction)
     distribution_q0 = loadDistributionOf_q0();
-    set_q01 = []; % Stochastic assignement for each well
-else
-    % Deterministic assignment, same value for all wells.
-    % (if determininstic assignment) >>>>>>  INPUT DATA: 
-    set_q01 = 500;
+%     set_q01 = []; % Stochastic assignement for each well
+% else
+%     % Deterministic assignment, same value for all wells.
+%     % (if determininstic assignment) >>>>>>  INPUT DATA: 
+%     set_q01 = 500;
 end
 
 printProgress = true;                              % true or false
@@ -70,7 +70,8 @@ days = 30.41; % Average number of days in a month.
 if(loadOilPriceFromFile)
     f = 'RWTCm.xls';
     sheet    = 'Data 1';
-    range    = 'A256:B359';  % from jan 2007 TO aug 2015
+    range    = 'A292:B363';  % from jan 2010 TO dec 2015
+    %range    = 'A256:B359';  % from jan 2007 TO aug 2015
     %range    = 'A316:B359'; % from jan 2012 TO aug 2015
     oilPrice = decideOilPrice(f,sheet,range);
 else
@@ -85,7 +86,8 @@ if(loadRigDataFromFile)
     %range    = 'B2:B6';
     f        = 'dpr-data.xlsx';
     sheet    = 'Eagle Ford Region';
-    range    = 'B3:B106';   % from jan 2007 TO aug 2015
+    range    = 'B39:B110';   % from jan 2010 TO dec 2015
+    %range    = 'B3:B106';   % from jan 2007 TO aug 2015
     %range    = 'B63:B106'; % from jan 2012 TO aug 2015
     rigs1 = loadRigs(f,sheet,range);
 else
@@ -101,7 +103,8 @@ if(loadWellsPerRigRateFromFile)
     %range    = 'B2:B6';
     f        = 'dpr-data_edited.xlsx';
     sheet    = 'Eagle Ford Region';
-    range    = 'N3:N106';  % from jan 2007 TO aug 2015
+    range    = 'L39:L110';   % from jan 2010 TO dec 2015
+    %range    = 'L3:L106';  % from jan 2007 TO aug 2015. Rystad 2011-2015. 
     %range    = 'J63:J106'; % from jan 2012 TO aug 2015
     wellsPerRigRate = loadWellsPerRigRate(f,sheet,range);
 else
@@ -112,7 +115,8 @@ end
 if(loadHistProdFromFile)
     filename = 'dpr-data_edited.xlsx';
     sheet = 'Eagle Ford Region';
-    range    = 'E3:E106';  % from jan 2007 TO aug 2015
+    range    = 'E39:E106';   % from jan 2010 TO aug 2015
+    %range    = 'E3:E106';  % from jan 2007 TO aug 2015
     %range    = 'E63:E106'; % from jan 2012 TO aug 2015
     
     fprintf('\nLoading history data on total production:\n');
@@ -154,18 +158,25 @@ end
 % >>>> INPUT: 
 producers = [createProducer(1e8,T,'rig',rigs1)];
 producers(1).wellsPerRigRate = wellsPerRigRate;
+
 %producers(1).NPVaggrConserv = ones(T,1) * (-1e6);  % Aggressive. NPV > negative value
 %producers(1).prodAim = productionData;
 
+
+%rigs2 = loadRigs(maxRigs);
 producers = [producers,createProducer(1e8,T,'rig',rigs1)];
 producers(2).wellsPerRigRate = wellsPerRigRate;
+producers(2).investInput.distribution_q0 = distribution_q0;
+producers(2).investInput.distribution_b  = distribution_b;
+producers(2).investInput.distribution_D  = distribution_D;
+
 %producers(2).NPVaggrConserv = ones(T,1) * (-1e6);  % Aggressive. NPV > negative value
 %producers(2).prodAim = productionData;
 
 
-producers(2).NPVestimatorInput.q0 = 514; % Mean of mean q0 from 2011-2014, 
-producers(2).NPVestimatorInput.D = .35;
-producers(2).NPVestimatorInput.b = 1;
+% producers(2).NPVestimatorInput.q0 = 514; % Mean of mean q0 from 2011-2014, 
+% producers(2).NPVestimatorInput.D = .35;
+% producers(2).NPVestimatorInput.b = 1;
 
 
 

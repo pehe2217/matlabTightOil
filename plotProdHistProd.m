@@ -5,7 +5,14 @@ global T producers
 fig = figure();
 hold on;
 production = zeros(T,length(producers));
+
 time = 1:T;
+% %%
+% time_str = [];
+% for i = time
+%     time_str = {time_str, my_yearmonth(2010,t)};
+% end
+
 
 colour = {'b','g','r'};
 % for pr = 1:length(producers)
@@ -39,7 +46,7 @@ sign = 's-';
 %% Load Total Production
 filename = 'dpr-data_edited.xlsx';
 sheet = 'Eagle Ford Region';
-range = 'E3:E106'; % Jan 2007 to aug 2015
+range = 'E39:E110'; % Jan 2010 to aug 2015
 
 fprintf('\nLoading history data on total production:\n');
 fprintf('\tTrying to read input file:\n');
@@ -68,7 +75,22 @@ set(findall(gcf,'type','text'),'FontSize',16,'fontWeight','bold')
 lineobj = findobj('type', 'line');
 set(lineobj, 'linewidth', 1.5)
 
+axis([0 72 0 2000])
 %axis([0 T 0     max(max(max(production,[],2),histProd))/1000*1.1 ])
+
+
+
+%%
+fname = 'simulation_results.xlsx';
+sheet = datestr(now,'yyyy-mm-dd-HHMMSS');
+xlswrite(fname,{'Historical production'},sheet,'B1');
+xlRange1 = 'B2';
+xlswrite(fname,histProd,sheet,xlRange1);
+
+xlswrite(fname,{'Simulated production'},sheet,'C1');
+xlRange2 = 'C2';
+xlswrite(fname,production,sheet,xlRange2);
+
 
 end
 

@@ -21,8 +21,9 @@ global T
 % These come originaly from Henrik Wachtmeister + Linnea Lund et al. 
 % Means and medians are calculated from in excel file 'q0_modified.xlxsl':
 
+q0 = [380 492 513 512 539]; % Mean for year 2010 - 2014
 %q0 = 487;   % Mean of mean q0 from 2010-2014, 
-q0 = 514;   % Mean of mean q0 from 2011-2014, 
+%q0 = 514;   % Mean of mean q0 from 2011-2014, 
 %q0 = 456;   % Median of 2010-2014,
 %q0 = 462;   % Median of 2011-2014,
 % _________________________________________________________________
@@ -55,6 +56,12 @@ b = 1;
 D = .35;
 
 
+distribution_q0= [];
+distribution_b = [];
+distribution_D = [];
+
+
+
 decommissioned = T; %[month] Defining which month the well is decommissioned.
 %%
 
@@ -74,6 +81,9 @@ inputs = struct(...
     'D',D,...
     'b',b,...
     'decommissioned',decommissioned,...
-    'decomCost',decomCost);
+    'decomCost',decomCost,...
+    'distribution_q0', distribution_q0,...
+    'distribution_b',  distribution_b,...
+    'distribution_D',  distribution_D);
 end
 

@@ -223,3 +223,34 @@ sheet = 'Peak prod (bpd)';
 range = 'L8:T38';
 [data1,text] = xlsread(filename,sheet,range);
 
+
+
+%%
+figure()
+
+colour = {'b','g','r','c','m','y','k',};
+for i = 1:5
+     semilogx(distribution_q0{i}(:,1),distribution_q0{i}(:,2),colour{i});
+     hold on
+end
+axis([0 3000 0 1])
+legend('Year 2010','Year 2011','Year 2012','Year 2013','Year 2014')
+xlabel('Initial Production [avg bbl/day]')
+ylabel('Cummulative probability')
+
+grid on;
+figureHandle = gcf;
+set(findall(figureHandle,'type','text'),'fontSize',16,...
+    'fontWeight','bold')
+set(gca,'FontSize',16,'fontWeight','bold')
+set(findall(gcf,'type','text'),'FontSize',16,'fontWeight','bold')
+lineobj = findobj('type', 'line');
+set(lineobj, 'linewidth', 1.5)
+
+
+%%
+t = 1:120;
+for i = t
+    fprintf(my_yearmonth(2010,t))
+    fprintf('\n')
+end

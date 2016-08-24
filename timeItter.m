@@ -1,27 +1,17 @@
 function res = timeItter(printProgress)
 % +-----------------------------------
-% | TIME ITTERATION: Stepping through time. 
+% | TIME ITTERATION: Stepping through time.
 % | exe_x ---> timeItter ---> producerStrategy
-% | 
+% |
 % | for each timestep:
 % |     for each producer:
 % |         for each well:
-
-
-
 if nargin < 1
-  printProgress = false;
+    printProgress = false;
 end
-
-
-
-% global T economicDynamics days 
-% global producers prod 
-% global oilPrice
-
-
-
-
+global T economicDynamics days
+global producers prod
+global oilPrice
 
 res = 0;
 
@@ -47,7 +37,7 @@ for t = 1:T % Loop though time:
             % COMPLETION MONTH:
             if(producers(prod).wells(w).prodTime<=0)
                 
-                % Deduct completion cost from the producer's capital: 
+                % Deduct completion cost from the producer's capital:
                 producers(prod).capital(t) = producers(prod).capital(t)...
                     - producers(prod).wells(w).comCost;
                 
@@ -66,15 +56,16 @@ for t = 1:T % Loop though time:
                     .^((-1)/producers(prod).wells(w).b);
                 
                 % Add the production to the total production this month:
+                % average [bbl/day] each month
                 producers(prod).totalProd(t) = ...
                     producers(prod).totalProd(t) + producers(prod).wells(w).q(t);
                 
+                % Function: Compute net revenue:
+                netRev = computeNetRev(producers(prod).wells(w),oilPrice(t),t);
+                
+                producers(prod).capital(t) = producers(prod).capital(t)+netRev;
+                
                 if(economicDynamics)
-                    
-                    % FUNTION: COMPUTE NET REV
-                    netRev = computeNetRev(producers(prod).wells(w),oilPrice(t),t);
-                    
-                    producers(prod).capital(t) = producers(prod).capital(t)+netRev;
                     if(netRev<0)    % Decommission the well:
                         producers(prod).wells(w).decommissioned = t;
                         producers(prod).numWells(t) = producers(prod).numWells(t) -1;
@@ -88,11 +79,11 @@ for t = 1:T % Loop though time:
                             fprintf('Decision: Decommission the well.\n');
                         end
                     end % END: if netRev < 0
-                else % If no economic dynamics, a cut-off production is used. 
+                else 
                     if(producers(prod).wells(w).q(t)<producers(prod).cutOffProd)
+                        % If no economic dynamics, a cut-off production is used.
                         producers(prod).wells(w).decommissioned = t;
                         producers(prod).numWells(t) = producers(prod).numWells(t) -1;
-                        
                         if(printProgress)
                             fprintf('Decision: Decommission the well.\n');
                             fprintf('Cause: The production of the well reached the cut off limit.\n');
@@ -103,18 +94,18 @@ for t = 1:T % Loop though time:
                     end
                 end % IF economicDynamics
             end
-        end % Looping through the wells of each producer. 
+        end % Looping through the wells of each producer.
         
         
-        % PRODUCER STRATEGY: 
-        % DRILL WELLS ACCORDING TO THE PRODUCER'S STRATEGY. 
+        % PRODUCER STRATEGY:
+        % DRILL WELLS ACCORDING TO THE PRODUCER'S STRATEGY.
         producers(prod)= producerStrategy(printProgress,producers(prod),t);
         
         
     end % END: Looping through producers.
-end % END: Looping through time. 
+end % END: Looping through time.
 fprintf('\nLooping through time completed\n');
 
-res = 1; % Returns 1 if the simulation ended in a natural way. 
+res = 1; % Returns 1 if the simulation ended in a natural way.
 end
 

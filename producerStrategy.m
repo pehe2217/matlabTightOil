@@ -5,8 +5,8 @@ if(nargin<1)
     printProgress = false;
 end
 
-%global T economicDynamics
-%global oilPrice
+global T economicDynamics
+global oilPrice
 
 if(economicDynamics)
 %     if(t>6)
@@ -18,9 +18,16 @@ if(economicDynamics)
 %     end
     
     % [USD]:
+    
+%     fprintf('oilPrice(t): %f\n',oilPrice(t));
+%     fprintf('producer: \n');
+%     producer
+%     fprintf('producer.NPVestimatorInput: \n');
+%     producer.NPVestimatorInput
     npv = NPVestimator(oilPrice(t),producer.NPVestimatorInput);
     if((mod(t,10) == 0) && printProgress)
-        fprintf('Producer %0.0f: Inspection of well.\n',prod);
+        %fprintf('Producer %0.0f: Inspection of well.\n',producer);
+        fprintf('Inspection of well.\n');
         fprintf('Estimated Net Present Value: %f \n',npv);
     end
 end
@@ -45,7 +52,7 @@ switch producer.strategy
         end
     case 'rig'
         % 
-        availableRigs = producer.rigs(t) * producer.wellsPerRigRate(t);
+        availableRigs = round(producer.rigs(t)*producer.wellsPerRigRate(t));
         while(availableRigs>0)
             availableRigs = availableRigs -1;
             producer = investInNewWell(producer,t);
@@ -66,7 +73,7 @@ switch producer.strategy
     case 'NPV_rig'
         % npv > producer.NPVaggrConserv
         % rigs available
-        availableRigs = producer.rigs(t) * producer.wellsPerRigRate(t);
+        availableRigs = round(producer.rigs(t)*producer.wellsPerRigRate(t));
         while(npv > producer.NPVaggrConserv(t)&& ...
                 availableRigs>0)
             availableRigs = availableRigs-1;
@@ -75,7 +82,7 @@ switch producer.strategy
     case 'cash_rig'
         % capital > drilling cost and completion cost
         % available rig
-        availableRigs = producer.rigs(t) * producer.wellsPerRigRate(t);
+        availableRigs = round(producer.rigs(t)*producer.wellsPerRigRate(t));
         while( (producer.capital(t)>(producer.NPVestimatorInput.drillCost...
                 +producer.NPVestimatorInput.comCost))...
                && (availableRigs>0))
@@ -88,7 +95,7 @@ switch producer.strategy
         % npv > producer.NPVaggrConserv
         % capital > drilling cost and completion cost
         % available rig
-        availableRigs = producer.rigs(t) * producer.wellsPerRigRate(t);
+        availableRigs = round(producer.rigs(t)*producer.wellsPerRigRate(t));
         while(...
                 (npv > producer.NPVaggrConserv(t)) && ...
                 (producer.capital(t)>(producer.NPVestimatorInput.drillCost...
@@ -123,7 +130,7 @@ switch producer.strategy
         % wells. 
         
         % Calcucalte the number of wells to produce:
-        maxrigs = producer.rigs(t) * producer.wellsPerRigRate(t);
+        maxrigs = round(producer.rigs(t)*producer.wellsPerRigRate(t));
         start = producer.NPVaggrConserv(t); 
         stop = producer.NPVestimatorInput.drillCost + producer.NPVestimatorInput.comCost;
         start = start -stop*.2; 

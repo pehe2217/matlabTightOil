@@ -18,7 +18,7 @@ global distribution_D distribution_b distribution_q0
 global productionData
 
 % >>>  INPUT DATA: 
-T = 72;                             % [Months] Length of simulation
+T = 144;                             % [Months] Length of simulation
 economicDynamics                        = true;     % true or false
 loadOilPriceFromFile                    = true;     % true or false
 loadHistProdFromFile                    = false;    % true or false

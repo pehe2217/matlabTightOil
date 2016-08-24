@@ -18,7 +18,7 @@ global distribution_D distribution_b distribution_q0
 global productionData
 
 % >>>  INPUT DATA: 
-T = 72;                             % [Months] Length of simulation
+T = 144;                             % [Months] Length of simulation
 economicDynamics                        = true;     % true or false
 loadOilPriceFromFile                    = true;     % true or false
 loadHistProdFromFile                    = false;    % true or false
@@ -157,7 +157,7 @@ end
 % +--------------------------------------------------------------------+
 % >>>> INPUT: 
 
-producers = [createProducer(1e11,T,'NPV_rig',rigs1)];
+producers = [createProducer(1e11,T,'rig',rigs1)];
 producers(1).wellsPerRigRate = wellsPerRigRate;
 producers(1).investInput.distribution_q0 = distribution_q0;
 producers(1).investInput.distribution_b  = distribution_b;
@@ -176,74 +176,16 @@ producers(1).NPVestimatorInput.operatingCost = 10;
 %producers(1).prodAim = productionData;
 
 % NPV break even oil price = 65. 
-producers = [producers,createProducer(1e11,T,'NPV_rig',rigs1)];
+producers = [producers,createProducer(1e11,T,'rig',rigs1)];
 producers(2).wellsPerRigRate = wellsPerRigRate;
-producers(2).investInput.distribution_q0 = distribution_q0;
-producers(2).investInput.distribution_b  = distribution_b;
-producers(2).investInput.distribution_D  = distribution_D;
-producers(2).investInput.drillCost = 3e6;                        %[USD] One-time drilling cost
-producers(2).investInput.comCost =   3e6;                          %[USD] One-time completion cost
-producers(2).investInput.royaltiesAndTaxes = 0.15;               %[percentage]
+producers(2).investInput.drillCost = 2.3e6;                        %[USD] One-time drilling cost
+producers(2).investInput.comCost =   2.3e6;                          %[USD] One-time completion cost
+producers(2).investInput.royaltiesAndTaxes = 0.12;               %[percentage]
 producers(2).investInput.operatingCost = 10;   
-producers(2).NPVestimatorInput.drillCost = 3e6;                        %[USD] One-time drilling cost
-producers(2).NPVestimatorInput.comCost   = 3e6;                          %[USD] One-time completion cost
-producers(2).NPVestimatorInput.royaltiesAndTaxes = 0.15;               %[percentage]
+producers(2).NPVestimatorInput.drillCost = 2.3e6;                        %[USD] One-time drilling cost
+producers(2).NPVestimatorInput.comCost =   2.3e6;                          %[USD] One-time completion cost
+producers(2).NPVestimatorInput.royaltiesAndTaxes = 0.12;               %[percentage]
 producers(2).NPVestimatorInput.operatingCost = 10;   
-
-producers = [producers,createProducer(1e11,T,'NPV_rig',rigs1)];
-producers(3).wellsPerRigRate = wellsPerRigRate;
-producers(3).investInput.distribution_q0 = distribution_q0;
-producers(3).investInput.distribution_b  = distribution_b;
-producers(3).investInput.distribution_D  = distribution_D;
-producers(3).investInput.drillCost = 3.18e6;                        %[USD] One-time drilling cost
-producers(3).investInput.comCost   = 3.18e6;                          %[USD] One-time completion cost
-producers(3).investInput.royaltiesAndTaxes = 0.14;               %[percentage]
-producers(3).investInput.operatingCost = 13;   
-producers(3).NPVestimatorInput.drillCost = 3.18e6;                        %[USD] One-time drilling cost
-producers(3).NPVestimatorInput.comCost =   3.18e6;                          %[USD] One-time completion cost
-producers(3).NPVestimatorInput.royaltiesAndTaxes = 0.14;               %[percentage]
-producers(3).NPVestimatorInput.operatingCost = 13;   
-
-producers = [producers,createProducer(1e11,T,'NPV_rig',rigs1)];
-producers(4).wellsPerRigRate = wellsPerRigRate;
-producers(4).investInput.drillCost = 2.3e6;                        %[USD] One-time drilling cost
-producers(4).investInput.comCost =   2.3e6;                          %[USD] One-time completion cost
-producers(4).investInput.royaltiesAndTaxes = 0.12;               %[percentage]
-producers(4).investInput.operatingCost = 10;   
-
-producers(4).NPVestimatorInput.drillCost = 2.3e6;                        %[USD] One-time drilling cost
-producers(4).NPVestimatorInput.comCost =   2.3e6;                          %[USD] One-time completion cost
-producers(4).NPVestimatorInput.royaltiesAndTaxes = 0.12;               %[percentage]
-producers(4).NPVestimatorInput.operatingCost = 10;   
-
-% NPV break even oil price = 65. 
-producers = [producers,createProducer(1e11,T,'NPV_rig',rigs1)];
-producers(5).wellsPerRigRate = wellsPerRigRate;
-producers(5).investInput.drillCost = 3e6;                        %[USD] One-time drilling cost
-producers(5).investInput.comCost =   3e6;                          %[USD] One-time completion cost
-producers(5).investInput.royaltiesAndTaxes = 0.15;               %[percentage]
-producers(5).investInput.operatingCost = 10;   
-producers(5).NPVestimatorInput.drillCost = 3e6;                        %[USD] One-time drilling cost
-producers(5).NPVestimatorInput.comCost   = 3e6;                          %[USD] One-time completion cost
-producers(5).NPVestimatorInput.royaltiesAndTaxes = 0.15;               %[percentage]
-producers(5).NPVestimatorInput.operatingCost = 10;   
-
-producers = [producers,createProducer(1e11,T,'NPV_rig',rigs1)];
-producers(6).wellsPerRigRate = wellsPerRigRate;
-producers(6).investInput.drillCost = 3.18e6;                        %[USD] One-time drilling cost
-producers(6).investInput.comCost   = 3.18e6;                          %[USD] One-time completion cost
-producers(6).investInput.royaltiesAndTaxes = 0.14;               %[percentage]
-producers(6).investInput.operatingCost = 13;   
-producers(6).NPVestimatorInput.drillCost = 3.18e6;                        %[USD] One-time drilling cost
-producers(6).NPVestimatorInput.comCost =   3.18e6;                          %[USD] One-time completion cost
-producers(6).NPVestimatorInput.royaltiesAndTaxes = 0.14;               %[percentage]
-producers(6).NPVestimatorInput.operatingCost = 13;   
-
-
-% producers(2).NPVestimatorInput.q0 = 514; % Mean of mean q0 from 2011-2014, 
-% producers(2).NPVestimatorInput.D = .35;
-% producers(2).NPVestimatorInput.b = 1;
-
 
 
 % f        = 'output.xlsx';

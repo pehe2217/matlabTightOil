@@ -6,21 +6,12 @@ function res = timeItter(printProgress)
 % | for each timestep:
 % |     for each producer:
 % |         for each well:
-
-
-
 if nargin < 1
     printProgress = false;
 end
-
-
 global T economicDynamics days
 global producers prod
 global oilPrice
-
-
-
-
 
 res = 0;
 

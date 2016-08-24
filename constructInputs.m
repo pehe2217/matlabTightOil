@@ -28,17 +28,17 @@ q0 = [380 492 513 512 539]; % Mean for year 2010 - 2014
 %q0 = 462;   % Median of 2011-2014,
 % _________________________________________________________________
 
-drillCost = 5e6;                        %[USD] One-time drilling cost
-comCost = 4e6;                          %[USD] One-time completion cost
+drillCost = 4e6;                        %[USD] One-time drilling cost
+comCost =   4e6;                          %[USD] One-time completion cost
 drillTime = 1;
 comTime = 1;
-royaltiesAndTaxes = 0.30;               %[percentage]
+royaltiesAndTaxes = 0.20;               %[percentage]
 operatingCost = 10;                     %[USD/bbl] Variable
 fixedOperCost = 0;                      %[USD/bbl] Fixed
 discountRate = .10;                     %[percentage] Discount rate
 
 % Decommission cost is NOT used by John Kemp. 
-decomCost = 3e6;                        %[USD] One-time decommission cost
+decomCost = 5e4;                        %[USD] One-time decommission cost
 
 %[months]: Number of months used when computing NPV.
 timeHorizon = 240;

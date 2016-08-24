@@ -18,21 +18,28 @@ if(nargin==3)
             dlength = length(data);
             if(dlength==T)
                 wellsPerRigRate = data;
-            elseif(dlength<T)        
-                element = floor(T/dlength);
-                start = 1;
-                for i = 1:dlength
-                    wellsPerRigRate(start:start+element) = data(i);
-                    start = start+element;
-                end
-                if(start<T) % If the length of adjustment data vector is not fully
-                    % "dividible" with T, the last elements in the
-                    % adjustment vector are assigned with the last
-                    % adjustment value:
-                    for(i = start:T)
-                        wellsPerRigRate(i) = data(end);
-                    end
-                end
+            elseif(dlength<T)
+                
+                % Use the last value of input in the rest of the
+                % simulation. 
+                wellsPerRigRate(1:dlength) = data;
+                wellsPerRigRate((dlength+1):end) = data(end);
+                
+                %% Another way: 
+%                 element = floor(T/dlength);
+%                 start = 1;
+%                 for i = 1:dlength
+%                     wellsPerRigRate(start:start+element) = data(i);
+%                     start = start+element;
+%                 end
+%                 if(start<T) % If the length of adjustment data vector is not fully
+%                     % "dividible" with T, the last elements in the
+%                     % adjustment vector are assigned with the last
+%                     % adjustment value:
+%                     for(i = start:T)
+%                         wellsPerRigRate(i) = data(end);
+%                     end
+%                 end
             else
                 % IF: dlength>T
                 wellsPerRigRate = data(1:T);

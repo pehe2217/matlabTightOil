@@ -1,4 +1,4 @@
-function plotProdHistProd()
+function plotOilPriceProd()
 % Total production
 global T producers
 
@@ -14,19 +14,8 @@ time = 1:T;
 % end
 
 
-colour = {'b','g','r'};
-% for pr = 1:length(producers)
-%     col = colour{pr};
-%     if(pr==1 || pr==2 || pr==3) 
-%         col = strcat(col,'+');
-%     end
-%     production(:,pr) = producers(pr).totalProd;
-%     plot(time,production(:,pr)/1000,col)
-%     %plot(time,production(:,pr)/1000)
-% end
-
 sign = 'o-';
-for pr = 1:3
+for pr = 1:length(producers)
     col = colour{pr};
     col = strcat(col,sign);
     production(:,pr) = producers(pr).totalProd;
@@ -34,14 +23,13 @@ for pr = 1:3
     %plot(time,production(:,pr)/1000)
 end
 sign = 's-';
-for pr = 4:6
-    col = colour{pr-3};
-    %col = colour{pr};
-    col = strcat(col,sign);
-    production(:,pr) = producers(pr).totalProd;
-    plot(time,production(:,pr)/1000,col)
-    %plot(time,production(:,pr)/1000)
-end
+% for pr = 4:6
+%     col = colour{pr-3};
+%     col = strcat(col,sign);
+%     production(:,pr) = producers(pr).totalProd;
+%     plot(time,production(:,pr)/1000,col)
+%     %plot(time,production(:,pr)/1000)
+% end
 
 
 %% Load Total Production
@@ -84,13 +72,13 @@ axis([0 72 0 2000])
 %%
 fname = 'simulation_results.xlsx';
 sheet = datestr(now,'yyyy-mm-dd-HHMMSS');
-xlswrite(fname,{'Historical production [thousands bbl/day]'},sheet,'B1');
+xlswrite(fname,{'Historical production'},sheet,'B1');
 xlRange1 = 'B2';
-xlswrite(fname,histProd/1e3,sheet,xlRange1);
+xlswrite(fname,histProd,sheet,xlRange1);
 
-xlswrite(fname,{'Simulated production [thousands bbl/day]'},sheet,'C1');
+xlswrite(fname,{'Simulated production'},sheet,'C1');
 xlRange2 = 'C2';
-xlswrite(fname,production/1e3,sheet,xlRange2);
+xlswrite(fname,production,sheet,xlRange2);
 
 
 end

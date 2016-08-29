@@ -47,7 +47,8 @@ end
 %% Load Total Production
 filename = 'dpr-data_edited.xlsx';
 sheet = 'Eagle Ford Region';
-range = 'E39:E110'; % Jan 2010 to aug 2015
+%range = 'E39:E110'; % Jan 2010 to aug 2015
+range    = 'E39:E117';   % from jan 2010 TO July 2016
 
 fprintf('\nLoading history data on total production:\n');
 fprintf('\tTrying to read input file:\n');
@@ -76,7 +77,7 @@ set(findall(gcf,'type','text'),'FontSize',16,'fontWeight','bold')
 lineobj = findobj('type', 'line');
 set(lineobj, 'linewidth', 1.5)
 
-axis([0 72 0 2000])
+axis([0 T 0 2000])
 %axis([0 T 0     max(max(max(production,[],2),histProd))/1000*1.1 ])
 
 
